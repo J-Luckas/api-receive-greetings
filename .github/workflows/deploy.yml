@@ -41,6 +41,9 @@ jobs:
         # Builda a imagem aplicando a tag com a URL do seu ECR
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         
+        # Faz o push usando exatamente a mesma estrutura de variáveis
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
         # Cria e envia a tag 'latest' para manter o ECS atualizado de forma simples
         docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
