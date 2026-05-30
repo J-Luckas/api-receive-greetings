@@ -9,4 +9,8 @@ export class AppService {
   getGoodMorning(): string {
     return 'Good morning!';
   }
+
+  createGoodNight(message: string): string {
+    return `Good night! ${message}`;
+  }
 }
