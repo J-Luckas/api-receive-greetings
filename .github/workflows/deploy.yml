@@ -38,8 +38,17 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
+        # Builda a imagem aplicando a tag com a URL do seu ECR
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $MAPPED_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
+        # Faz o push usando exatamente a mesma estrutura de variáveis
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
+        # Cria e envia a tag 'latest' para manter o ECS atualizado de forma simples
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        
+        # Exporta o caminho da imagem para os próximos passos (Task Definition)
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
     # 4. Atualiza a Task Definition do ECS com a nova imagem do Docker
