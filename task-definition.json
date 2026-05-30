@@ -1,0 +1,35 @@
+{
+    "family": "api-receive-greetings",
+    "requiresCompatibilities": [
+      "FARGATE"
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "containerDefinitions": [
+      {
+        "name": "api-receive-greetings",
+        "image": "145554225574.dkr.ecr.us-east-2.amazonaws.com/api-receive-greetings:latest",
+        "cpu": 256,
+        "memory": 512,
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 3000,
+            "hostPort": 3000,
+            "protocol": "tcp"
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "/ecs/api-receive-greetings",
+            "awslogs-region": "us-east-2",
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
+      }
+    ],
+    "executionRoleArn": "arn:aws:iam::145554225574:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::145554225574:role/ecsTaskExecutionRole"
+  }
